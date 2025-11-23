@@ -8,8 +8,8 @@ package com.turing.javase7.javase7thbatch.chapter7;
  *
  * @author macbook
  */
-class Console
-{
+class ConsoleTwo
+{ 
     void print()
     {
         System.out.println("Zero version");
@@ -33,9 +33,9 @@ class Console
         System.out.println("Two argument boolean,String "+str + b);
     }
 }
-public class WhyOverload {
+public class WhyOverload { 
     public static void main(String[] args) {
-        Console console = new Console();
+        ConsoleTwo console = new ConsoleTwo();
         String str = "Hello";
         boolean flag = false;
         
