@@ -10,6 +10,7 @@ package com.turing.javase7.javase7thbatch.chapter9;
  */
 interface Flyable
 {
+    //abstract 
     void fly();
 }
 class Bird implements Flyable
