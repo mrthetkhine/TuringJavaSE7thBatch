@@ -10,6 +10,30 @@ import java.util.Scanner;
  *
  * @author macbook
  */
+class FinancialException extends Exception
+{
+    double amount;
+    public FinancialException(String message,double amount)
+    {
+        super(message);
+        this.amount = amount;
+    }
+}
+
+class InvalidCreditException extends FinancialException
+{
+    public InvalidCreditException(String message,double amount)
+    {
+        super(message,amount);
+    }
+}
+class InvalidDebitException extends FinancialException
+{
+    public InvalidDebitException(String message,double amount)
+    {
+        super(message,amount);
+    }
+}
 class BankAccount
 {
     private double balance;
@@ -18,7 +42,7 @@ class BankAccount
     {
         this.balance = balance;
     }
-    void credit(double amount)
+    void credit(double amount)throws InvalidCreditException
     {
         if(amount >0)
         {
@@ -27,11 +51,11 @@ class BankAccount
         }
         else
         {
-            throw new RuntimeException("Invalid credit");
+            throw new InvalidCreditException("Invalid credit ",amount);
         }
         
     }
-    void debit(double amount)
+    void debit(double amount)throws InvalidDebitException
     {
         if(amount>0 && amount <= this.balance)
         {
@@ -40,7 +64,7 @@ class BankAccount
         }
         else
         {
-            throw new RuntimeException("Invalid debit");
+            throw new InvalidDebitException("Invalid debit",amount);
         }
         
     }
@@ -82,10 +106,19 @@ public class AccountDemo {
                     
                 }
             }
-            catch(Exception e)
+            catch(InvalidDebitException |InvalidCreditException e)
             {
-                System.out.println("Exception "+e.getMessage());
+                System.out.println("Invalid Debit "+e.getMessage() + " amount "+e.amount);
             }
+            /*
+            catch(InvalidDebitException e)
+            {
+                System.out.println("Invalid Debit "+e.getMessage() + " amount "+e.amount);
+            }
+            catch(InvalidCreditException e)
+            {
+                System.out.println("InvalidCredit "+e.getMessage() + " amount "+e.amount);
+            }*/
             finally
             {
                 System.out.println("Balance===>");
