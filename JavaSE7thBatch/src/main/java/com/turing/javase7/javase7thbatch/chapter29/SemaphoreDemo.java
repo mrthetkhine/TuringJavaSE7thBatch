@@ -46,9 +46,9 @@ public class SemaphoreDemo {
         Semaphore sem = new Semaphore(1);
         Data data = new Data(0);
         
-        IncThread t1 = new IncThread(data,sem);
-        IncThread t2 = new IncThread(data,sem);
-        IncThread t3 = new IncThread(data,sem);
+        IncThreadV2 t1 = new IncThreadV2(data,sem);
+        IncThreadV2 t2 = new IncThreadV2(data,sem);
+        IncThreadV2 t3 = new IncThreadV2(data,sem);
         
         t1.start();
         t2.start();
