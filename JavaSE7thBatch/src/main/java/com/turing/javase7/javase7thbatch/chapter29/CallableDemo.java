@@ -54,8 +54,8 @@ public class CallableDemo {
             
         System.out.println("Starting ");
         
-        Future<Integer> result = es.submit(new Sum(10));
-        Future<Integer> result2 = es.submit(new Sum(50));
+        Future<Integer> result = es.submit(new SumTask(10));
+        Future<Integer> result2 = es.submit(new SumTask(50));
         try {
            
             
