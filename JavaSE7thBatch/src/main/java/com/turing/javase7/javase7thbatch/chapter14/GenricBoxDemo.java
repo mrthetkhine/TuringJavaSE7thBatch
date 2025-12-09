@@ -26,10 +26,11 @@ class GenericBox<T>
         this.value = value;
     }
     
+    
 }
 public class GenricBoxDemo {
     public static void main(String[] args) {
-        GenericBox<Integer> iBox = new GenericBox(20);
+        GenericBox<Integer> iBox = new GenericBox<>(20);
         //iBox.setValue("Hello");
         System.out.println("IBox +1 "+iBox.getValue()+1);
         
@@ -43,5 +44,12 @@ public class GenricBoxDemo {
         System.out.println("Box "+box.getValue().getClass());
         
         //strBox = iBox;
+        System.out.println("Instance of GenericBox "+ (iBox instanceof GenericBox));
+        System.out.println("Instance of GenericBox Integer "+ (iBox instanceof GenericBox<Integer>));
+        System.out.println("Instance of GenericBox ? "+ (iBox instanceof GenericBox<?>));
+        
+        //iBox = (GenericBox<Integer>)strBox;
+        iBox = (GenericBox)strBox;
+        System.out.println("iBox "+iBox.getValue());
     }
 }
