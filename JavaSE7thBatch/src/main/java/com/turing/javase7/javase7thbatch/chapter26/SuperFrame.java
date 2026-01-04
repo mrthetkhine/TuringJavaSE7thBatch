@@ -14,6 +14,10 @@ import java.awt.event.WindowEvent;
  * @author macbook
  */
 public abstract class SuperFrame extends Frame{
+    SuperFrame()
+    {
+        this("");
+    }
     SuperFrame(String title)
     {
         super(title);
