@@ -4,6 +4,7 @@
  */
 package com.turing.javase7.javase7thbatch.chapter26;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,10 +37,9 @@ public class MovieCRUD extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtYear = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMovie = new javax.swing.JTable();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Movie Title");
 
@@ -51,6 +51,13 @@ public class MovieCRUD extends javax.swing.JFrame {
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -66,12 +73,15 @@ public class MovieCRUD extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtTitle)
                         .addComponent(txtDirector)
                         .addComponent(txtYear, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,7 +99,9 @@ public class MovieCRUD extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAdd)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnDelete))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -130,6 +142,28 @@ public class MovieCRUD extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.addMovie();
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        this.deleteMovie();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+    public void deleteMovie()
+    {
+        int selectedRow = this.tblMovie.getSelectedRow();
+        if(selectedRow !=-1)
+        {
+            System.out.println("Selected row "+selectedRow);  
+            if( JOptionPane.showConfirmDialog(null, "Are you sure you want to delete",
+                    "Confirm Delete",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            {
+                System.out.println("Yes delete");
+                DefaultTableModel model = (DefaultTableModel)this.tblMovie.getModel();
+                model.removeRow(selectedRow);
+                
+                
+            }
+        }
+    }
     public void addMovie()
     {
         String title = this.txtTitle.getText();
@@ -188,6 +222,7 @@ public class MovieCRUD extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
