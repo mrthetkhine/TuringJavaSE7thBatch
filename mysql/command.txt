@@ -1,0 +1,133 @@
+CREATE TABLE `javase_7th`.`items` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `price` FLOAT NULL,
+  `qty` INT NULL,
+  PRIMARY KEY (`id`));
+
+//Create 
+INSERT items(name,price,qty)
+VALUES ("Apple",20,100);
+
+//Read 
+//Select all
+SELECT * FROM javase_7th.items;
+
+//id,name
+SELECT id,name from items;
+
+SELECT *, price*qty from items;
+
+SELECT *, price*qty as total from items;
+
+//duplicate result
+SELECT category FROM javase_7th.items;
+
+SELECT DISTINCT category FROM javase_7th.items;
+
+SELECT * FROM javase_7th.items
+WHERE id = 5;
+
+SELECT * FROM javase_7th.items
+WHERE qty <20;
+
+SELECT * FROM javase_7th.items
+WHERE category ='Electronic'
+
+SELECT * FROM javase_7th.items
+WHERE category ='Electronic'
+AND qty < 20;
+
+SELECT * FROM javase_7th.items
+WHERE category ='Electronic'
+OR category="Groceries";
+
+SELECT * FROM javase_7th.items
+WHERE category IN ('Electronic',"Groceries");
+
+SELECT * FROM javase_7th.items
+WHERE category <>'Electronic';
+
+SELECT *  from items 
+ORDER By price;
+
+SELECT *  from items 
+ORDER By price DESC;
+
+SELECT * FROM javase_7th.items
+WHERE category <>'Electronic'
+ORDER BY price DESC;
+
+SELECT COUNT(*) FROM javase_7th.items
+SELECT Max(qty) FROM javase_7th.items
+
+SELECT category,COUNT(*) FROM javase_7th.items
+GROUP BY category;
+
+SELECT category,AVG(price) FROM javase_7th.items
+GROUP BY category;
+
+SELECT category,AVG(price) 
+FROM javase_7th.items
+GROUP BY category
+HAVING AVG(price) >100
+
+//Select category which is not Electronic and average price < 100
+SELECT category,AVG(price) 
+FROM javase_7th.items
+WHERE category <>'Electronic'
+GROUP BY category
+HAVING AVG(price) >100
+
+SELECT month(now()),day(now()),year(now());
+
+SELECT concat( month(now()),'/',day(now()),'/',year(now()));
+
+SELECT * FROM javase_7th.items
+WHERE name LIKE 'O%'
+
+SELECT * FROM javase_7th.items
+WHERE name LIKE '%e'
+
+SELECT * FROM javase_7th.items
+WHERE name LIKE '%ne%'
+
+SELECT * FROM item_section
+WHERE section_id =1;
+
+SELECT items.* FROM items,item_section
+WHERE item_section.section_id =2
+AND items.id = item_section.item_id;
+
+//inner join.
+SELECT items.id,items.name,section.id as sectionID, section.name FROM items 
+JOIN item_section 
+ON item_section.item_id = items.id
+JOIN section
+ON item_section.section_id = section.id;
+
+//CROSS JOIN 
+SELECT * FROM items,item_section
+WHERE items.id = item_section.item_id;
+
+//INNER JOIN 
+SELECT * FROM city
+INNER JOIN students
+ON city.id = students.city_id;
+
+//LEFT JOIN 
+SELECT * FROM city
+LEFT JOIN students
+ON city.id = students.city_id;
+
+//RIGHT JON 
+SELECT * FROM students
+RIGHT JOIN city
+ON city.id = students.city_id;
+
+UPDATE items
+SET name = "Test",category="Dummy"
+WHERE id = 9;
+
+DELETE  FROM items
+WHERE id = 10;

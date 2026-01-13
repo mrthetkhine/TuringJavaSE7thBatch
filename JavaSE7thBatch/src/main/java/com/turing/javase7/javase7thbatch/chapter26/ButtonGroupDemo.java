@@ -76,7 +76,7 @@ public class ButtonGroupDemo extends javax.swing.JFrame {
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton1))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
