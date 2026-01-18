@@ -36,5 +36,10 @@ public class GenreServiceImpl implements GenreService{
     public void updateGenere(Genre genre) {
         this.dao.updateGenere(genre);
     }
+
+    @Override
+    public ArrayList<Genre> getAllGenresByMovieId(int id) {
+        return this.dao.getAllGenresByMovieId(id);
+    }
     
 }

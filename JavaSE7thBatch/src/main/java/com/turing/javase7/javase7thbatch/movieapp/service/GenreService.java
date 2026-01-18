@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public interface GenreService {
     ArrayList<Genre> getAllGenres();
+    ArrayList<Genre> getAllGenresByMovieId(int id);
     void addGenre(String name);
     void deleteGenereById(int id);
     void updateGenere(Genre genre);

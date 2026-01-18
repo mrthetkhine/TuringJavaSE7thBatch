@@ -4,17 +4,16 @@
  */
 package com.turing.javase7.javase7thbatch.movieapp.service;
 
-import com.turing.javase7.javase7thbatch.movieapp.dao.model.Movie;
+import com.turing.javase7.javase7thbatch.movieapp.dao.model.Actor;
 import java.util.ArrayList;
 
 /**
  *
  * @author macbook
  */
-public interface MovieService {
-    ArrayList<Movie> getAllMovie();
-    void addMovie(String title,int year);
-    void deleteMovieById(int id);
-    void updateMovie(Movie movie);
-    void addGenereToMovie(int movieId,int genreId);
+public interface ActorService {
+    ArrayList<Actor> getAllActors();
+    void saveActor(Actor actor);
+    void deleteActorById(int id);
+    void updateActor(Actor actor);
 }

@@ -4,6 +4,7 @@
  */
 package com.turing.javase7.javase7thbatch.movieapp.service;
 
+import com.turing.javase7.javase7thbatch.movieapp.service.impl.ActorServiceImpl;
 import com.turing.javase7.javase7thbatch.movieapp.service.impl.GenreServiceImpl;
 import com.turing.javase7.javase7thbatch.movieapp.service.impl.MovieServiceImpl;
 
@@ -16,11 +17,13 @@ public class App {
     
     MovieService movieService;
     GenreService genreService;
+    ActorService actorService;
     
     private App()
     {
         this.movieService = new MovieServiceImpl();
         this.genreService = new GenreServiceImpl();
+        this.actorService = new ActorServiceImpl();
     }
     public static App getSingleton()
     {
@@ -37,6 +40,10 @@ public class App {
 
     public GenreService getGenreService() {
         return genreService;
+    }
+
+    public ActorService getActorService() {
+        return actorService;
     }
     
 }

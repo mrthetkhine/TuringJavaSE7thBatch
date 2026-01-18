@@ -4,17 +4,16 @@
  */
 package com.turing.javase7.javase7thbatch.movieapp.dao;
 
-import com.turing.javase7.javase7thbatch.movieapp.dao.model.Genre;
+import com.turing.javase7.javase7thbatch.movieapp.dao.model.Actor;
 import java.util.ArrayList;
 
 /**
  *
  * @author macbook
  */
-public interface GenreDao {
-    ArrayList<Genre> getAllGenre();
-    ArrayList<Genre> getAllGenresByMovieId(int id);
-    void addGenre(String name);
-    void deleteGenreById(int id);
-    void updateGenere(Genre genre);
+public interface ActorDao {
+    ArrayList<Actor> getAllActors();
+    public void saveActor(Actor actor);
+    void deleteActorById(int id);
+    void updateActor(Actor actor);
 }

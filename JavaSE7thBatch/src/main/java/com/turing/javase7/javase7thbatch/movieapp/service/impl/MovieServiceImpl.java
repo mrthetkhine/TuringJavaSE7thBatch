@@ -5,8 +5,10 @@
 package com.turing.javase7.javase7thbatch.movieapp.service.impl;
 
 import com.turing.javase7.javase7thbatch.movieapp.dao.MovieDao;
+import com.turing.javase7.javase7thbatch.movieapp.dao.MovieGenreDao;
 import com.turing.javase7.javase7thbatch.movieapp.dao.impl.MovieDaoDummyImpl;
 import com.turing.javase7.javase7thbatch.movieapp.dao.impl.MovieDaoImpl;
+import com.turing.javase7.javase7thbatch.movieapp.dao.impl.MovieGenreDaoImpl;
 import com.turing.javase7.javase7thbatch.movieapp.dao.model.Movie;
 import com.turing.javase7.javase7thbatch.movieapp.service.MovieService;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 public class MovieServiceImpl implements MovieService {
 
     MovieDao dao = new MovieDaoImpl();
+    MovieGenreDao movieGenreDao = new MovieGenreDaoImpl();
     
     @Override
     public ArrayList<Movie> getAllMovie() {
@@ -38,6 +41,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void updateMovie(Movie movie) {
         this.dao.updateMovie(movie);
+    }
+
+    @Override
+    public void addGenereToMovie(int movieId, int genreId) {
+        this.movieGenreDao.saveMovieGenre(movieId, genreId);
     }
     
 }

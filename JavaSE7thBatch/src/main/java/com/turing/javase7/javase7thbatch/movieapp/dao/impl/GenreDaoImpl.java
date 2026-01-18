@@ -86,5 +86,40 @@ public class GenreDaoImpl extends BaseDao implements GenreDao{
            
         }
     }
+
+    @Override
+    public ArrayList<Genre> getAllGenresByMovieId(int movieId) {
+        ArrayList<Genre> genres = new ArrayList<>();
+        
+        String sql = """
+                     SELECT movie.id,movie.title, genre.name
+                     FROM javase_7th.movie_genres
+                     INNER JOIN movie
+                     ON movie_genres.movie_id = movie.id
+                     INNER JOIN genre
+                     ON movie_genres.genre_id = genre.id
+                     WHERE movie_genres.movie_id = ?
+                     """;
+        
+        try(PreparedStatement stmt = con.prepareStatement(sql);)
+        {
+            stmt.setInt(1, movieId);
+            ResultSet resultSet = stmt.executeQuery();
+            
+            while(resultSet.next())
+            {
+                int id = resultSet.getInt("Id");
+                String name = resultSet.getString("name");
+                
+               
+                genres.add(new Genre(id,name));
+            }
+            resultSet.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return genres;
+    }
     
 }
