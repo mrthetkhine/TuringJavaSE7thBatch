@@ -91,7 +91,7 @@ public class ActorSetup extends javax.swing.JFrame implements TableModelListener
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Actor Setup");
 
         jLabel1.setText("Name");
 
@@ -154,10 +154,9 @@ public class ActorSetup extends javax.swing.JFrame implements TableModelListener
                                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtName)
-                                .addComponent(cboGender, 0, 285, Short.MAX_VALUE)
-                                .addComponent(txtDob)))
+                            .addComponent(txtName)
+                            .addComponent(cboGender, 0, 285, Short.MAX_VALUE)
+                            .addComponent(txtDob))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnShowDatePicker)))
                 .addContainerGap(181, Short.MAX_VALUE))

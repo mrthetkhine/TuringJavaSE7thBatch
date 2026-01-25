@@ -4,20 +4,69 @@
  */
 package com.turing.javase7.javase7thbatch.movieapp.ui;
 
+import com.turing.javase7.javase7thbatch.movieapp.dao.model.User;
+import com.turing.javase7.javase7thbatch.movieapp.service.App;
+import com.turing.javase7.javase7thbatch.movieapp.service.AuthService;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author macbook
  */
 public class MainUI extends javax.swing.JFrame {
 
+    App app = App.getSingleton();
+    AuthService authService = app.getAuthService();
+    
     MovieSetup frmMovieSetup = new MovieSetup();
+    ActorSetup frmActorSetup = new ActorSetup();
+    DirectorSetup frmDirectorSetup = new DirectorSetup();
+    GenreSetup frmGenreSetup = new GenreSetup();
+    SearchActor frmSearchActor = new SearchActor();
+    DirectorSearch frmSearchDirector = new DirectorSearch();
+    UserSetup frmUserSetup = new UserSetup();
+    MovieRating frmMovieRating = new MovieRating();
     /**
      * Creates new form MainUI
      */
     public MainUI() {
         initComponents();
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        this.dlgLogin.setSize(400, 250);
+        this.centerLoginDlg();
+        this.dlgLogin.setVisible(true);
     }
-
+     public void centerLoginDlg(){
+       
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) (((dimension.getWidth() - this.dlgLogin.getWidth()) / 2));
+        int y = (int) ((dimension.getHeight() - this.dlgLogin.getHeight()) / 2) ;
+        dlgLogin.setLocation(x, y);
+    }
+    void login()
+    {
+        String username = this.txtUserName.getText();
+        String password = this.txtPassword.getText();
+        if(this.authService.login(username, password) )
+        {
+            
+            this.dlgLogin.setVisible(false);
+            this.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Invalid username or password", "Login", JOptionPane.ERROR_MESSAGE);
+            this.clearLoginForm();
+        }
+    }
+    void clearLoginForm()
+    {
+        this.txtUserName.setText("");
+        this.txtPassword.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,13 +76,73 @@ public class MainUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dlgLogin = new javax.swing.JDialog();
+        jLabel2 = new javax.swing.JLabel();
+        txtUserName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        btnLogin = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        mnuMovie = new javax.swing.JMenuItem();
+        mnuGenre = new javax.swing.JMenuItem();
         mnuActor = new javax.swing.JMenuItem();
         mnuDirector = new javax.swing.JMenuItem();
+        mnuMovie = new javax.swing.JMenuItem();
+        mnuUser = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        mnuSearchActor = new javax.swing.JMenuItem();
+        mnuDirectorSearch = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        mnuRating = new javax.swing.JMenuItem();
+
+        dlgLogin.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        dlgLogin.setTitle("Login");
+        dlgLogin.setModal(true);
+
+        jLabel2.setText("Username");
+
+        jLabel3.setText("Password");
+
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dlgLoginLayout = new javax.swing.GroupLayout(dlgLogin.getContentPane());
+        dlgLogin.getContentPane().setLayout(dlgLoginLayout);
+        dlgLoginLayout.setHorizontalGroup(
+            dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dlgLoginLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogin)
+                    .addGroup(dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtUserName)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        dlgLoginLayout.setVerticalGroup(
+            dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dlgLoginLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(dlgLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addComponent(btnLogin)
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,6 +150,30 @@ public class MainUI extends javax.swing.JFrame {
         jLabel1.setText("Movie Application");
 
         jMenu1.setText("Setup");
+
+        mnuGenre.setText("Genre");
+        mnuGenre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuGenreActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuGenre);
+
+        mnuActor.setText("Actor");
+        mnuActor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuActorActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuActor);
+
+        mnuDirector.setText("Director");
+        mnuDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDirectorActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuDirector);
 
         mnuMovie.setText("Movie");
         mnuMovie.addActionListener(new java.awt.event.ActionListener() {
@@ -50,15 +183,46 @@ public class MainUI extends javax.swing.JFrame {
         });
         jMenu1.add(mnuMovie);
 
-        mnuActor.setText("Actor");
-        jMenu1.add(mnuActor);
-
-        mnuDirector.setText("Director");
-        jMenu1.add(mnuDirector);
+        mnuUser.setText("User");
+        mnuUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUserActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuUser);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu3.setText("Search");
+
+        mnuSearchActor.setText("Actors");
+        mnuSearchActor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSearchActorActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuSearchActor);
+
+        mnuDirectorSearch.setText("Director");
+        mnuDirectorSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDirectorSearchActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuDirectorSearch);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Rating");
+
+        mnuRating.setText("Give Rating");
+        mnuRating.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRatingActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnuRating);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -87,6 +251,48 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.frmMovieSetup.setVisible(true);
     }//GEN-LAST:event_mnuMovieActionPerformed
+
+    private void mnuGenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGenreActionPerformed
+        // TODO add your handling code here:
+        this.frmGenreSetup.setVisible(true);
+    }//GEN-LAST:event_mnuGenreActionPerformed
+
+    private void mnuActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuActorActionPerformed
+        // TODO add your handling code here:
+        this.frmActorSetup.setVisible(true);
+    }//GEN-LAST:event_mnuActorActionPerformed
+
+    private void mnuDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDirectorActionPerformed
+        // TODO add your handling code here:
+        this.frmDirectorSetup.setVisible(true);
+    }//GEN-LAST:event_mnuDirectorActionPerformed
+
+    private void mnuSearchActorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSearchActorActionPerformed
+        // TODO add your handling code here:
+        this.frmSearchActor.setVisible(true);
+    }//GEN-LAST:event_mnuSearchActorActionPerformed
+
+    private void mnuDirectorSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDirectorSearchActionPerformed
+        // TODO add your handling code here:
+        this.frmSearchDirector.setVisible(true);
+    }//GEN-LAST:event_mnuDirectorSearchActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        this.login();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void mnuUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUserActionPerformed
+        // TODO add your handling code here:
+        this.frmUserSetup.setVisible(true);
+    }//GEN-LAST:event_mnuUserActionPerformed
+
+    private void mnuRatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRatingActionPerformed
+        // TODO add your handling code here:
+        this.frmMovieRating.setVisible(true);
+        User user = this.authService.getAuthUser();
+        this.frmMovieRating.loadRatingForUser(user.id());
+    }//GEN-LAST:event_mnuRatingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,12 +330,24 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JDialog dlgLogin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem mnuActor;
     private javax.swing.JMenuItem mnuDirector;
+    private javax.swing.JMenuItem mnuDirectorSearch;
+    private javax.swing.JMenuItem mnuGenre;
     private javax.swing.JMenuItem mnuMovie;
+    private javax.swing.JMenuItem mnuRating;
+    private javax.swing.JMenuItem mnuSearchActor;
+    private javax.swing.JMenuItem mnuUser;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
 }

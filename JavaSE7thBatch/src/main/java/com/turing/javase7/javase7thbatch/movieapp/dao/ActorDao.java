@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public interface ActorDao {
     ArrayList<Actor> getAllActors();
+    ArrayList<Actor> getAllActorsByName(String name);
     public void saveActor(Actor actor);
     void deleteActorById(int id);
     void updateActor(Actor actor);

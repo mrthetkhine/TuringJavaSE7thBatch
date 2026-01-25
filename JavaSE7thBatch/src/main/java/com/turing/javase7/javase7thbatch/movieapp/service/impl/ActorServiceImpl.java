@@ -22,7 +22,10 @@ public class ActorServiceImpl implements ActorService{
     public ArrayList<Actor> getAllActors() {
         return this.dao.getAllActors();
     }
-
+    @Override
+    public ArrayList<Actor> getAllActorsByName(String name) {
+        return this.dao.getAllActorsByName(name);
+    }
     @Override
     public void saveActor(Actor actor) {
         this.dao.saveActor(actor);
@@ -37,5 +40,7 @@ public class ActorServiceImpl implements ActorService{
     public void updateActor(Actor actor) {
         this.dao.updateActor(actor);
     }
+
+    
     
 }

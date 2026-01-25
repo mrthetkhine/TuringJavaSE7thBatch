@@ -48,7 +48,7 @@ public class GenreSetup extends javax.swing.JFrame implements TableModelListener
         jLabel1 = new javax.swing.JLabel();
         txtGenre = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Genre Setup");
 
         tblGenres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

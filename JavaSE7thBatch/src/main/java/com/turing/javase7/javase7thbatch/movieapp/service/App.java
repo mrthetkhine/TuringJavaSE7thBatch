@@ -5,8 +5,11 @@
 package com.turing.javase7.javase7thbatch.movieapp.service;
 
 import com.turing.javase7.javase7thbatch.movieapp.service.impl.ActorServiceImpl;
+import com.turing.javase7.javase7thbatch.movieapp.service.impl.AuthServiceImpl;
+import com.turing.javase7.javase7thbatch.movieapp.service.impl.DirectorServiceImpl;
 import com.turing.javase7.javase7thbatch.movieapp.service.impl.GenreServiceImpl;
 import com.turing.javase7.javase7thbatch.movieapp.service.impl.MovieServiceImpl;
+import com.turing.javase7.javase7thbatch.movieapp.service.impl.RatingServiceImpl;
 
 /**
  *
@@ -18,12 +21,18 @@ public class App {
     MovieService movieService;
     GenreService genreService;
     ActorService actorService;
+    DirectorService directorService;
+    AuthService authService;
+    RatingService ratingService;
     
     private App()
     {
         this.movieService = new MovieServiceImpl();
         this.genreService = new GenreServiceImpl();
         this.actorService = new ActorServiceImpl();
+        this.directorService = new DirectorServiceImpl();
+        this.authService = new AuthServiceImpl();
+        this.ratingService = new RatingServiceImpl();
     }
     public static App getSingleton()
     {
@@ -44,6 +53,18 @@ public class App {
 
     public ActorService getActorService() {
         return actorService;
+    }
+
+    public DirectorService getDirectorService() {
+        return directorService;
+    }
+
+    public AuthService getAuthService() {
+        return authService;
+    }
+
+    public RatingService getRatingService() {
+        return ratingService;
     }
     
 }

@@ -4,14 +4,22 @@
  */
 package com.turing.javase7.javase7thbatch.movieapp.ui;
 
+import com.turing.javase7.javase7thbatch.movieapp.dao.model.Actor;
+import com.turing.javase7.javase7thbatch.movieapp.dao.model.Director;
 import com.turing.javase7.javase7thbatch.movieapp.dao.model.Genre;
 import com.turing.javase7.javase7thbatch.movieapp.dao.model.Movie;
+import com.turing.javase7.javase7thbatch.movieapp.service.ActorService;
 import com.turing.javase7.javase7thbatch.movieapp.service.App;
+import com.turing.javase7.javase7thbatch.movieapp.service.DirectorService;
 import com.turing.javase7.javase7thbatch.movieapp.service.GenreService;
 import com.turing.javase7.javase7thbatch.movieapp.service.MovieService;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -21,13 +29,18 @@ import javax.swing.table.TableModel;
  *
  * @author macbook
  */
-public class MovieSetup extends javax.swing.JFrame implements TableModelListener{
+public class MovieSetup extends javax.swing.JFrame implements TableModelListener, ListSelectionListener{
 
     App app = App.getSingleton();
+    
     MovieService movieService = app.getMovieService();
     GenreService genreService = app.getGenreService();
+    ActorService actorService = app.getActorService();
+    DirectorService directorService = app.getDirectorService();
     
     HashMap<String,Integer> genereAndId = new HashMap<String,Integer>();
+    HashMap<String,Integer> actorAndId = new HashMap<String,Integer>();
+    HashMap<String,Integer> directorAndId = new HashMap<String,Integer>();
     /**
      * Creates new form MovieSetup
      */
@@ -35,7 +48,11 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
         initComponents();
         this.loadMovies();
         this.loadGenresToComboBox();
+        this.loadActorComboBox();
+        this.loadDirectorComboBox();
+        
         this.tblMovies.getModel().addTableModelListener(this);
+        this.tblMovies.getSelectionModel().addListSelectionListener(this);
     }
     void loadGenresToComboBox()
     {
@@ -45,6 +62,37 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
             this.cboGenres.addItem(genre.name());
             this.genereAndId.put(genre.name(), genre.id());
         }
+    }
+    
+    void loadActorComboBox()
+    {
+        ArrayList<Actor> actors =this.actorService.getAllActors();
+        System.out.println("Actor size "+actors.size());
+        
+        
+        for(Actor actor : actors)
+        {
+            
+            this.cboActors.addItem(actor.name());
+            this.actorAndId.put(actor.name() , actor.id());
+            
+        }
+       
+    }
+    void loadDirectorComboBox()
+    {
+        ArrayList<Director> directors =this.directorService.getAllDirector();
+        System.out.println("directors size "+directors.size());
+        
+        
+        for(Director director : directors)
+        {
+            
+            this.cboDirector.addItem(director.name());
+            this.directorAndId.put(director.name() , director.id());
+            
+        }
+       
     }
     void loadMovies()
     {
@@ -107,9 +155,18 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         cboActors = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnAddActorToMovie = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstActorInMovie = new javax.swing.JList<>();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstDirectorInMovie = new javax.swing.JList<>();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        cboDirector = new javax.swing.JComboBox<>();
+        btnAddDirector = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Movie Setup");
 
         jLabel1.setText("Title");
@@ -176,7 +233,12 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
 
         jLabel4.setText("Actor");
 
-        jButton1.setText("Add Actor");
+        btnAddActorToMovie.setText("Add Actor");
+        btnAddActorToMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActorToMovieActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,7 +249,7 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(btnAddActorToMovie, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(cboActors, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -199,8 +261,50 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
                     .addComponent(jLabel4)
                     .addComponent(cboActors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnAddActorToMovie)
                 .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        jLabel5.setText("Actor in movie");
+
+        jScrollPane2.setViewportView(lstActorInMovie);
+
+        jLabel6.setText("Director in movie");
+
+        jScrollPane3.setViewportView(lstDirectorInMovie);
+
+        jLabel7.setText("Director");
+
+        btnAddDirector.setText("Add Director");
+        btnAddDirector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDirectorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAddDirector, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                    .addComponent(cboDirector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cboDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddDirector)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,9 +331,25 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(197, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,14 +367,26 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
                         .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd)
-                            .addComponent(btnDelete)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnDelete))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)))
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3)))
                 .addGap(61, 61, 61))
         );
 
@@ -326,6 +458,85 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
             JOptionPane.showMessageDialog(null, "Please select movie to add genre");
         }
     }
+    
+    private void btnAddActorToMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActorToMovieActionPerformed
+        // TODO add your handling code here:
+        this.addActorToMovie();
+    }//GEN-LAST:event_btnAddActorToMovieActionPerformed
+
+    private void btnAddDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDirectorActionPerformed
+        // TODO add your handling code here:
+        this.addDirectorToMovie();
+    }//GEN-LAST:event_btnAddDirectorActionPerformed
+    void addActorToMovie()
+    {
+        int row = this.tblMovies.getSelectedRow();
+        if(row !=-1)
+        {
+            Integer movieId = (Integer)this.tblMovies.getModel().getValueAt(row, 0);
+            String actor = (String)this.cboActors.getSelectedItem();
+            Integer genreId = this.actorAndId.get(actor);
+            System.out.println("Movie id "+movieId+" actor id "+genreId);
+            
+            this.movieService.addActorToMovie(movieId,genreId);
+            this.loadActorForMovie(movieId);
+            JOptionPane.showMessageDialog(null, "Actor successfully added");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Please select movie to add genre");
+        }
+    }
+    void addDirectorToMovie()
+    {
+        int row = this.tblMovies.getSelectedRow();
+        if(row !=-1)
+        {
+            Integer movieId = (Integer)this.tblMovies.getModel().getValueAt(row, 0);
+            String director = (String)this.cboDirector.getSelectedItem();
+            Integer directorId = this.directorAndId.get(director);
+            System.out.println("Movie id "+movieId+" directorId id "+directorId);
+            
+            this.movieService.addDirectorToMovie(movieId,directorId);
+            this.loadDirectorForMovie(movieId);
+            JOptionPane.showMessageDialog(null, "Actor successfully added");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Please select movie to add genre");
+        }
+    }
+    void loadDirectorForMovie(int movieId)
+    {
+        ArrayList<Director> directors = this.movieService.getAllDirectorForMovie(movieId);
+        this.showDirectorForMovie(directors);
+        
+    }
+    void showDirectorForMovie(ArrayList<Director> directors)
+    {
+        Vector listModel = new Vector();
+        for(Director director : directors)
+        {
+            listModel.addElement(director.name());
+            
+        }
+        this.lstDirectorInMovie.setListData(listModel);
+    }
+    void loadActorForMovie(int movieId)
+    {
+        ArrayList<Actor> actors = this.movieService.getAllActorForMovie(movieId);
+        this.showActorForMovie(actors);
+    }
+    void showActorForMovie(ArrayList<Actor> actors)
+    {
+        Vector listModel = new Vector();
+        for(Actor actor : actors)
+        {
+            listModel.addElement(actor.name());
+            
+        }
+        this.lstActorInMovie.setListData(listModel);
+    }
     /**
      * @param args the command line arguments
      */
@@ -363,18 +574,28 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddActorToMovie;
+    private javax.swing.JButton btnAddDirector;
     private javax.swing.JButton btnAddGenre;
     private javax.swing.JButton btnDelete;
     private javax.swing.JComboBox<String> cboActors;
+    private javax.swing.JComboBox<String> cboDirector;
     private javax.swing.JComboBox<String> cboGenres;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> lstActorInMovie;
+    private javax.swing.JList<String> lstDirectorInMovie;
     private javax.swing.JTable tblMovies;
     private javax.swing.JTextField txtTitle;
     private javax.swing.JTextField txtYear;
@@ -399,6 +620,23 @@ public class MovieSetup extends javax.swing.JFrame implements TableModelListener
             
         }
         // Handle INSERT and DELETE events similarly
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            int selectedRow = this.tblMovies.getSelectedRow();
+            if (selectedRow != -1) {
+                // A row is selected
+                System.out.println("Selection changed. Selected row: " + selectedRow);
+
+                // Example: Get data from the first column of the selected row
+                Integer movieId = (Integer)tblMovies.getModel().getValueAt(selectedRow, 0);
+                System.out.println("Value in first column: " + movieId);
+                this.loadActorForMovie(movieId);
+                this.loadDirectorForMovie(movieId);
+            }
+        }
     }
     
 }

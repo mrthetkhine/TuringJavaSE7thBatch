@@ -46,7 +46,32 @@ public class ActorDaoImpl extends BaseDao implements ActorDao{
         }
         return actors;
     }
-
+    @Override
+    public ArrayList<Actor> getAllActorsByName(String actorName) {
+        ArrayList<Actor> actors = new ArrayList<>();
+        
+        String sql = "SELECT * FROM actor WHERE name LIKE '%"+actorName+"%'";
+        
+        try(Statement statement = con.createStatement())
+        {
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while(resultSet.next())
+            {
+                int id = resultSet.getInt("Id");
+                String name = resultSet.getString("name");
+                String gender = resultSet.getString("gender");
+                Date birthDate = resultSet.getDate("birthday");//3
+               
+                actors.add(new Actor(id,name,gender,birthDate));
+            }
+            resultSet.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return actors;
+    }
     @Override
     public void saveActor(Actor actor) {
         String sql = "INSERT INTO actor(name,gender,birthday) "
@@ -93,5 +118,7 @@ public class ActorDaoImpl extends BaseDao implements ActorDao{
            
         }
     }
+
+   
     
 }
